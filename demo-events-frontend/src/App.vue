@@ -10,9 +10,9 @@
     <v-main>
       <template>
         <v-data-table :headers="headers" :items="events">
-          <template>
-            <td>{{ events[0].name }}</td>
-            <td>{{ events[0].time }}</td>
+          <template v-slot:items="props">
+            <td>{{ props.item.name }}</td>
+            <td>{{ props.item.time }}</td>
           </template>
         </v-data-table></template
       >
@@ -31,7 +31,10 @@ export default Vue.extend({
   name: "App",
   // THIS IS WHERE WE CAN DEFINE ALL OF OUR REACTIVE ELEMENTS
   data: () => ({
-    events: [{ name: "This Is A Test", time: new Date() }],
+    events: [
+      { name: "This Is A Test", time: new Date() },
+      { name: "Second Test", time: new Date() },
+    ],
     headers: [
       {
         text: "Name",

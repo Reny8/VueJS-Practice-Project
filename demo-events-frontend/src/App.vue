@@ -8,16 +8,20 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <!-- <router-view /> -->
-      <p>{{ events[0].name }}</p>
-      <p>{{ events[0].time }}</p>
+      <template>
+        <v-data-table :headers="headers" :items="events">
+          <template>
+            <td>{{ events[0].name }}</td>
+            <td>{{ events[0].time }}</td>
+          </template>
+        </v-data-table></template
+      >
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-
 interface Event {
   name: string;
   time: Date;
@@ -27,11 +31,21 @@ export default Vue.extend({
   name: "App",
   // THIS IS WHERE WE CAN DEFINE ALL OF OUR REACTIVE ELEMENTS
   data: () => ({
-    events: [{ name: "This is a test", time: new Date() }],
+    events: [{ name: "This Is A Test", time: new Date() }],
+    headers: [
+      {
+        text: "Name",
+        value: "name",
+      },
+      {
+        text: "Time",
+        value: "time",
+      },
+    ],
   }),
   // MOUNTED IS EQUIVALENT TO USEEFFECT IN REACT
   mounted: function () {
-    console.log("Testing");
+    console.log(this.events);
   },
 });
 </script>

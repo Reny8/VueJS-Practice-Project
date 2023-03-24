@@ -28,28 +28,35 @@ const BACKEND_URL = "http://localhost:80";
 export default Vue.extend({
   name: "App",
   // THIS IS WHERE WE CAN DEFINE ALL OF OUR REACTIVE ELEMENTS
-  data: () => ({
-    events: [],
-    headers: [
-      {
-        text: "Name",
-        value: "name",
-      },
-      {
-        text: "Time",
-        value: "time",
-      },
-    ],
-  }),
+  data: function () {
+    return {
+      events: [],
+      headers: [
+        {
+          text: "Name",
+          value: "name",
+        },
+        {
+          text: "Time",
+          value: "time",
+        },
+      ],
+    };
+  },
+  methods: {
+    getAllEvents: async function () {
+      const response = await fetch(`${BACKEND_URL}/events`);
+      const json = await response.json();
+      json.events.forEach((item: any) => {
+        item.time = new Date(item.time);
+      });
+      this.events = json.events;
+    },
+  },
 
   // MOUNTED IS EQUIVALENT TO USEEFFECT IN REACT
   mounted: async function () {
-    const response = await fetch(`${BACKEND_URL}/events`);
-    const json = await response.json();
-    json.events.forEach((item: any) => {
-      item.time = new Date(item.time);
-    });
-    this.events = json.events;
+    this.getAllEvents();
   },
 });
 </script>
